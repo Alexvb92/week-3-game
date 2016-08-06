@@ -12,38 +12,38 @@
  background: url("assets/images/background.png") repeat;} 
 </style>
 	<div class=" col-md-12 text-primary">
-		<div class=" text-center col-md-12 "> 
-			<img src="assets/images/DOOM.gif"> Hangman
+			<div class=" text-center col-md-12 "> 
+				<img src="assets/images/DOOM.gif"> Hangman
+			</div>
+			<div class="col-md-12 centered text-center">
+			 <p class="presskey">Press any key to start playing!</p>
+			 </div>
+			<div class="col-md-12 centered text-center"> 
+				<p class="hangman"></p>
+			</div>
+		<div class= "lead col-md-12 text-center" >
+			<p class= "disp"> </p>
 		</div>
-		<div class="col-md-12 centered text-center">
-		 <p class="presskey">Press any key to start playing!</p>
-		 </div>
-		<div class="col-md-12 centered text-center"> 
-			<p class="hangman"></p>
+		<div class= "lead col-md-4 text-center" >
+			<p class="wins">  </p>
 		</div>
-	<div class= "lead col-md-12 text-center" >
-		<p class= "disp"> </p>
-	</div>
-	<div class= "lead col-md-4 text-center" >
-		<p class="wins">  </p>
-	</div>
-	<div class= "lead col-md-4 text-center" >
-		<p class="guessleft">  </p>
-	</div>
-	<div class= " lead col-md-4 text-center" >
-		<p class="losses">  </p>
-	</div>
-	<div class="row">
-	 <div  class="col-md-4 text-xs-left"> 
-	 </div> 
-		<div class= " col-md-4 ">
-			<p class="joinedletters">  </p>
+		<div class= "lead col-md-4 text-center" >
+			<p class="guessleft">  </p>
 		</div>
-	<div  class="col-md-4 text-xs-right"> 
-	 	<img class="img" src="http://www.dsclab.ntua.gr/~phib/images/doom/anim/bar1.gif  ">
-	 	<img class="img" src="http://www.dsclab.ntua.gr/~phib/images/doom/anim/bar1.gif  ">
-	</div> 
-	</div>
+		<div class= " lead col-md-4 text-center" >
+			<p class="losses">  </p>
+		</div>
+		<div class="row">
+		 	<div  class="col-md-4 text-xs-left"> </div>
+		  
+			<div class= " col-md-4 ">
+				<p class="joinedletters">  </p>
+			</div>
+		<div  class="col-md-4 text-xs-right"> 
+		 </div>	
+		 <img class="img" src="http://www.dsclab.ntua.gr/~phib/images/doom/anim/bar1.gif  ">
+		 	<img class="img" src="http://www.dsclab.ntua.gr/~phib/images/doom/anim/bar1.gif  ">
+		</div> 
 	</div>
 
 <script type="text/javascript">
@@ -69,49 +69,38 @@
 		var numwrong = 0;
 		var guessleft = 6;
 		var lettersguessed = [];
-		var letterssplit = letters1.split("")
-		document.querySelector('.hangman').innerHTML = '<img src="assets/images/head1.gif">' ;
-
+		var letterssplit = letters1.split("");
+		document.querySelector('.wins').innerHTML =  '<img src="assets/images/LOSSSES.gif">' + lost;
+		document.querySelector('.losses').innerHTML =  '<img src="assets/images/WINS.gif">' + won;
+		document.querySelector('.guessleft').innerHTML ='<img src="assets/images/GUESS.gif">' +  guessleft;
 		
-
+	function reset() {
+		setup();
+		document.querySelector('.joinedletters').innerHTML = "";
+		document.querySelector('.hangman').innerHTML = '<img src="assets/images/head1.gif">' ;
+				document.querySelector('.disp').innerHTML = disp;
+				document.querySelector('.guessleft').innerHTML ='<img src="assets/images/GUESS.gif">' +  guessleft;
+		
+			}
 
 		window.onkeydown = function () {
 				var userGuess = String.fromCharCode(event.keyCode).toLowerCase();
 				var letter = computerGuess.indexOf(userGuess);	
-				lettersguessed.push(userGuess);
-				var joineddisp = disp.join("");
-				var lettersguessed1 = lettersguessed.filter(function(elem, index, self) 
-					{
-			    		return index == self.indexOf(elem);
-					})
 
-
-			     for (var i = 0; i < wordLength; i++) {
-			     	 if (computerGuess.charAt(i) == userGuess) {
-			         disp[i] = userGuess;
-					}
-				 }
-
-			    console.log(lettersguessed);
-			    console.log(numright);
-				console.log(lettersguessed1);
-			    console.log(computerGuess);
-
-			      if ((letter == -1) && ( event.keyCode >= 65 && event.keyCode <=90 )){
+	
+			      if ((letter == -1) && ( event.keyCode >= 65 && event.keyCode <=90 ) && !lettersguessed.includes(userGuess)){
 			      	guessleft --;
 
 			      }
 
 			      if (guessleft < 1){
-			      		setup();
+			      		
 			      		lost++;
+			      		reset();
+			      		return;
 			      
 			      }
-			      if (joineddisp === computerGuess){
-			      	setup();
-			      	won++;
-					
-			      }
+
 			      if (won > 1) {
 			      	document.querySelector('.hangman').innerHTML = '<img src="assets/images/head0.gif">';
 			      }
@@ -119,23 +108,34 @@
 			      	document.querySelector('.hangman').innerHTML = '<img src="assets/images/head1.gif">';
 
 			      }
+				if ( event.keyCode >= 65 && event.keyCode <=90 ){
+				lettersguessed.push(userGuess);
+			}
+			     for (var i = 0; i < wordLength; i++) {
+			     	 if (computerGuess.charAt(i) == userGuess) {
+			         disp[i] = userGuess;
+					}
+				 }
+				var lettersguessed1 = lettersguessed.filter(function(elem, index, self) 
+					{
+			    		return index == self.indexOf(elem);
+					})
 
 
-			console.log(lettersguessed1);
-
-			var joinedletters = lettersguessed1.join(" ");
-
+				var joineddisp = disp.join("");
+				var joinedletters = lettersguessed1.join(" ");
+			      if (joineddisp === computerGuess){
+			  
+			      won++;
+			      	reset();
+			      	return;
+					
+			      }
 			document.querySelector('.disp').innerHTML = disp;
 			document.querySelector('.guessleft').innerHTML ='<img src="assets/images/GUESS.gif">' + guessleft;
-			document.querySelector('.wins').innerHTML =  '<img src="assets/images/LOSSSES.gif">' + lost;
-			document.querySelector('.losses').innerHTML =  '<img src="assets/images/WINS.gif">' + won;
 			document.querySelector('.joinedletters').innerHTML = "Letters Guessed: " + joinedletters;
 			document.querySelector('.presskey').innerHTML = ""
 
-
-			function gameend(win) {
-
-		}
 	}
 };
 </script>
