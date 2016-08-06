@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+	<link rel="stylesheet" type="text/css" href="https://bootswatch.com/readable/bootstrap.min.css">
+
+<head>
+	<title>Hangman</title>
+</head>
+<body>
+<style>
+ html, body {
+ background: url("assets/images/background.png") repeat;} 
+</style>
+	<div class=" col-md-12 text-primary">
+		<div class=" text-center col-md-12 "> 
+			<img src="assets/images/DOOM.gif"> Hangman
+		</div>
+		<div class="col-md-12 centered text-center">
+		 <p class="presskey">Press any key to start playing!</p>
+		 </div>
+		<div class="col-md-12 centered text-center"> 
+			<p class="hangman"></p>
+		</div>
+	<div class= "lead col-md-12 text-center" >
+		<p class= "disp"> </p>
+	</div>
+	<div class= "lead col-md-4 text-center" >
+		<p class="wins">  </p>
+	</div>
+	<div class= "lead col-md-4 text-center" >
+		<p class="guessleft">  </p>
+	</div>
+	<div class= " lead col-md-4 text-center" >
+		<p class="losses">  </p>
+	</div>
+	<div class= " lead col-md-12 text-center">
+		<p class="joinedletters">  </p>
+	</div>
+
+<script type="text/javascript">
+
+	var won = 0;
+	var lost = 0;
+	var underline = "_";
+	var computerChoices = ["doomguy", "cacodemon", "arachnotron", "cyberdemon", "imp", "medikit", "ammo", "key", "mancubus" ];
+	var game =  0;
+	var lives = 5;
+	var	letters1 = "abcdefghijklmnopqrstuvwxyz";
+	window.onload = setup();
+
+	function setup() {
+
+		var computerGuess = computerChoices[Math.floor(Math.random() * computerChoices.length)];
+		console.log(computerGuess);
+		var disp1 =  underline.repeat(computerGuess.length);
+		var disp = disp1.split("");
+		var letters = letters1.split("")
+		var wordLength = disp.length;
+		var numright = 0;
+		var numwrong = 0;
+		var guessleft = 6;
+		var lettersguessed = [];
+		var letterssplit = letters1.split("")
+		document.querySelector('.hangman').innerHTML = '<img src="assets/images/head1.gif">' ;
+
+		
+
+
+		window.onkeydown = function () {
+				var userGuess = String.fromCharCode(event.keyCode).toLowerCase();
+				var letter = computerGuess.indexOf(userGuess);	
+				lettersguessed.push(userGuess);
+				var joineddisp = disp.join("");
+				var lettersguessed1 = lettersguessed.filter(function(elem, index, self) 
+					{
+			    		return index == self.indexOf(elem);
+					})
+
+
+			     for (var i = 0; i < wordLength; i++) {
+			     	 if (computerGuess.charAt(i) == userGuess)  {
+			         disp[i] = userGuess;
+					}
+				 }
+
+			    console.log(lettersguessed);
+			    console.log(numright);
+				console.log(lettersguessed1);
+			    console.log(computerGuess);
+
+			      if (letter == -1){
+			      	guessleft --;
+
+			      }
+
+			      if (guessleft < 1){
+			      		setup();
+			      		lost++;
+			      
+			      }
+			      if (joineddisp === computerGuess){
+			      	setup();
+			      	won++;
+					
+			      }
+			      if (won > 1) {
+			      	document.querySelector('.hangman').innerHTML = '<img src="assets/images/head0.gif">';
+			      }
+			      else {
+			      	document.querySelector('.hangman').innerHTML = '<img src="assets/images/head1.gif">';
+
+			      }
+
+
+			console.log(lettersguessed1);
+
+			var joinedletters = lettersguessed1.join(" ");
+
+			document.querySelector('.disp').innerHTML = disp;
+			document.querySelector('.guessleft').innerHTML ='<img src="assets/images/GUESS.gif">' + guessleft;
+			document.querySelector('.wins').innerHTML =  '<img src="assets/images/LOSSSES.gif">' + lost;
+			document.querySelector('.losses').innerHTML =  '<img src="assets/images/WINS.gif">' + won;
+			document.querySelector('.joinedletters').innerHTML ='<img src="http://www.dsclab.ntua.gr/~phib/images/doom/anim/bar1.gif  ">' + " " +  "Letters Guessed: " + joinedletters + " " + '<img src="http://www.dsclab.ntua.gr/~phib/images/doom/anim/bar1.gif  ">';
+			document.querySelector('.presskey').innerHTML = ""
+
+
+			function gameend(win) {
+
+		}
+	}
+};
+</script>
+</body>
+</html>
