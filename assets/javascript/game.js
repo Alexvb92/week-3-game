@@ -5,7 +5,6 @@
 	var underline = "_";
 	var computerChoices = ["doomguy", "cacodemon", "arachnotron", "cyberdemon", "imp", "medikit", "ammo", "key", "mancubus" ];
 	var game =  0;
-	var lives = 5;
 	var	letters1 = "abcdefghijklmnopqrstuvwxyz";
 	window.onload = setup();
 
@@ -36,57 +35,53 @@
 			}
 
 		window.onkeydown = function () {
-				var userGuess = String.fromCharCode(event.keyCode).toLowerCase();
-				var letter = computerGuess.indexOf(userGuess);	
+			var userGuess = String.fromCharCode(event.keyCode).toLowerCase();
+			var letter = computerGuess.indexOf(userGuess);	
 
 	
-			      if ((letter == -1) && ( event.keyCode >= 65 && event.keyCode <=90 ) && !lettersguessed.includes(userGuess)){
-			      	guessleft --;
+			if ((letter == -1) && ( event.keyCode >= 65 && event.keyCode <=90 ) && !lettersguessed.includes(userGuess)){
+			    guessleft --;
+			}
 
-			      }
+			if (guessleft < 1){
+			    lost++;
+			    reset();
+			    return;
+			}
 
-			      if (guessleft < 1){
-			      		
-			      		lost++;
-			      		reset();
-			      		return;
-			      
-			      }
-
-			      if (won > 1) {
-			      	document.querySelector('.hangman').innerHTML = '<img src="assets/images/head0.gif">';
-			      }
-			      else {
-			      	document.querySelector('.hangman').innerHTML = '<img src="assets/images/head1.gif">';
-
-			      }
-				if ( event.keyCode >= 65 && event.keyCode <=90 ){
+			if (won > 1) {
+			    document.querySelector('.hangman').innerHTML = '<img src="assets/images/head0.gif">';
+			}
+			else {
+			    document.querySelector('.hangman').innerHTML = '<img src="assets/images/head1.gif">';
+			}
+			if ( event.keyCode >= 65 && event.keyCode <=90 ){
 				lettersguessed.push(userGuess);
 			}
-			     for (var i = 0; i < wordLength; i++) {
-			     	 if (computerGuess.charAt(i) == userGuess) {
+			for (var i = 0; i < wordLength; i++) {
+			     if (computerGuess.charAt(i) == userGuess) {
 			         disp[i] = userGuess;
-					}
-				 }
-				var lettersguessed1 = lettersguessed.filter(function(elem, index, self) 
-					{
-			    		return index == self.indexOf(elem);
-					})
+				}
+			}
+			var lettersguessed1 = lettersguessed.filter(function(elem, index, self) 
+			{
+			    return index == self.indexOf(elem);
+			})
 
 
-				var joineddisp = disp.join("");
-				var joinedletters = lettersguessed1.join(" ");
-			      if (joineddisp === computerGuess){
-			  
-			      won++;
-			      	reset();
-			      	return;
-					
-			      }
+			var joineddisp = disp.join("");
+
+			var joinedletters = lettersguessed1.join(" ");
+
+			if (joineddisp === computerGuess){
+			  	won++;
+			    reset();
+			    return;
+			}
 			document.querySelector('.disp').innerHTML = disp;
 			document.querySelector('.guessleft').innerHTML ='<img src="assets/images/GUESS.gif">' + guessleft;
 			document.querySelector('.joinedletters').innerHTML = "Letters Guessed: " + joinedletters;
-			document.querySelector('.presskey').innerHTML = ""
+			document.querySelector('.presskey').innerHTML = "";
 
 	}
 };
