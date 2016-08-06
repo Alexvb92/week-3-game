@@ -87,7 +87,7 @@
 
 
 			     for (var i = 0; i < wordLength; i++) {
-			     	 if (computerGuess.charAt(i) == userGuess)  {
+			     	 if (computerGuess.charAt(i) == userGuess) {
 			         disp[i] = userGuess;
 					}
 				 }
@@ -97,7 +97,7 @@
 				console.log(lettersguessed1);
 			    console.log(computerGuess);
 
-			      if (letter == -1){
+			      if ((letter == -1) && ( event.keyCode >= 65 && event.keyCode <=90 )){
 			      	guessleft --;
 
 			      }
